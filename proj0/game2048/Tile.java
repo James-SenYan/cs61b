@@ -79,5 +79,5 @@ public class Tile {
     private final int row, col;
 
     /** Successor tile: one I am moved to or merged with. */
-    private Tile next;
+    private Tile  next;
 }

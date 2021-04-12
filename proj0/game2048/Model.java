@@ -2,7 +2,6 @@ package game2048;
 
 import java.util.Formatter;
 import java.util.Observable;
-import java.util.concurrent.ForkJoinPool;
 
 
 /** The state of a game of 2048.
@@ -110,14 +109,32 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
-
+        Board b = this.board;
+        b.setViewingPerspective(side);
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        for (int col = b.size() - 1; col >= 0; col--) {
+            for (int row = b.size() - 1; row >= 0; row--) {
+                Tile cur = b.tile(col, row);
+                if(cur != null){
+                    for (int i = row - 1; i >= 0 ; i--) {
+                        Tile temp = b.tile(col, i);
+                        if(temp != null && temp.value() == cur.value()){
+                            b.move(col, i, cur);
+                            changed = true;
+                        }
+                    }
+                }
 
+            }
+        }
         checkGameOver();
         if (changed) {
             setChanged();
+        }
+        if(side != Side.NORTH){
+            b.setViewingPerspective(Side.NORTH);
         }
         return changed;
     }
@@ -184,10 +201,10 @@ public class Model extends Observable {
         for (int i = 0; i < b.size(); i++) {
             for (int j = 0; j < b.size(); j++) {
                 Tile cur = b.tile(i, j);
-                Tile up = i > 0 ? b.tile(i - 1, j):null;
-                Tile down = i < b.size() - 1 ? b.tile(i + 1, j):null;
-                Tile left = j > 0 ? b.tile(i, j - 1):null;
-                Tile right = j < b.size() - 1 ? b.tile(i, j + 1):null;
+                Tile left = i > 0 ? b.tile(i - 1, j):null;
+                Tile right = i < b.size() - 1 ? b.tile(i + 1, j):null;
+                Tile up = j > 0 ? b.tile(i, j - 1):null;
+                Tile down = j < b.size() - 1 ? b.tile(i, j + 1):null;
                 if(up != null && cur.value() == up.value()){
                     return true;
                 }

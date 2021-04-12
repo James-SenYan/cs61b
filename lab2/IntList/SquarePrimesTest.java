@@ -17,4 +17,13 @@ public class SquarePrimesTest {
         assertEquals("14 -> 15 -> 16 -> 289 -> 18", lst.toString());
         assertTrue(changed);
     }
+
+    @Test
+    public void testPrimes(){
+        assertTrue(Primes.isPrime(17));
+        assertTrue(Primes.isPrime(11));
+        assertTrue(Primes.isPrime(53));
+        assertTrue(Primes.isPrime(47));
+        assertTrue(Primes.isPrime(7));
+    }
 }

@@ -36,6 +36,27 @@ public class IntList {
         return rest.get(i - 1);
     }
 
+    /**create IntList which is the same as L, but only with each element increased by x. */
+    public static IntList incrList(IntList L, int x){
+        int index = L.size() - 1;
+        IntList result = null;
+        while (index >= 0){
+            int val = L.get(index) + x;
+            result = new IntList(val, result);
+        }
+        return result;
+    }
+
+    /**make changes to original IntList L, with each element increased by x. */
+    public static IntList dincrList(IntList L, int x){
+        IntList Q = L;
+        while (Q != null){
+            Q.first += x;
+            Q = Q.rest;
+        }
+        return L;
+    }
+
     /** Method to return a string representation of an IntList */
     public String toString() {
         if (rest == null) {
