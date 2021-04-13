@@ -6,13 +6,13 @@ package deque;
  * @author Sen Yan
  * @create 2021-04-11-13:48
  */
-public class LinkedListDeque {
+public class LinkedListDeque<T> {
     private class Node{
         private Node pre;
-        private int item;
+        private T item;
         private Node next;
 
-        public Node(Node pre, int item, Node next){
+        public Node(Node pre, T item, Node next){
             this.pre = pre;
             this.item = item;
             this.next = next;
@@ -24,14 +24,14 @@ public class LinkedListDeque {
     private Node sentB;
 
     public LinkedListDeque(){
-        sentF = new Node(null, 63, null);
-        sentB = new Node(null, 63, null);
+        sentF = new Node(null, null, null);
+        sentB = new Node(null, null, null);
         sentF.next = sentB;
         sentB.pre = sentF;
         size = 0;
     }
 
-    public void addFirst(int item){
+    public void addFirst(T item){
         size += 1;
         Node newNode = new Node(null, item,null);
         Node oldNode = sentF.next;
@@ -41,7 +41,7 @@ public class LinkedListDeque {
         sentF.next = newNode;
     }
 
-    public void addLast(int item){
+    public void addLast(T item){
         size += 1;
         Node newNode = new Node(null, item, null);
         Node oldNode = sentB.pre;
@@ -52,7 +52,7 @@ public class LinkedListDeque {
     }
 
     public boolean isEmpty(){
-        return sentF.next == sentB;
+        return size == 0;
     }
 
     public int size(){
@@ -68,31 +68,31 @@ public class LinkedListDeque {
         System.out.println();
     }
 
-    public Integer removeFirst(){
-        size -= 1;
+    public T removeFirst(){
         if(sentF.next == sentB){
             return null;
         }else{
-            Integer result =  sentF.next.item;
+            T result =  sentF.next.item;
             sentF.next = sentF.next.next;
             sentF.next.pre = sentF;
+            size -= 1;
             return  result;
         }
     }
 
-    public Integer removeLast(){
-        size -= 1;
+    public T removeLast(){
         if(sentB.pre == sentF){
             return null;
         }else{
-            Integer result = sentB.pre.item;
+            T result = sentB.pre.item;
             sentB.pre = sentB.pre.pre;
             sentB.pre.next = sentB;
+            size -= 1;
             return result;
         }
     }
 
-    public Integer get(int index){
+    public T get(int index){
         Node p = sentF.next;
         while (index > 0){
             p = p.next;
@@ -104,12 +104,12 @@ public class LinkedListDeque {
     public LinkedListDeque(LinkedListDeque other){
         int sizeOther = other.size();
         size = sizeOther;
-        sentF = new Node(null, 63, null);
-        sentB = new Node(null, 63, null);
+        sentF = new Node(null, null, null);
+        sentB = new Node(null, null, null);
         sentF.next = sentB;
         sentB.pre = sentF;
         while(sizeOther > 0){
-            Integer temp = other.get(sizeOther - 1);
+            T temp = (T) other.get(sizeOther - 1);
             Node newNode = new Node(null, temp,null);
             Node oldNode = sentF.next;
             oldNode.pre = newNode;
